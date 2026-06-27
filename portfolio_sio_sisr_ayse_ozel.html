@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayse Ozel | Portfolio BTS SIO SISR</title>
+    <!-- Google Fonts pour la typographie professionnelle et technique -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome pour les icônes d'infrastructure, sécurité et réseaux -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS pour un framework CSS ultra-modulaire -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#080c14',      /* Fond sombre principal profond */
+                            card: '#0e1526',      /* Fond des cartes et éléments en verre dépoli */
+                            cyan: '#06b6d4',      /* Cyan néon d'accentuation */
+                            blue: '#3b82f6',      /* Bleu électrique technique */
+                            text: '#94a3b8',      /* Texte de corps gris ardoise moderne */
+                            border: '#1e293b',    /* Bordure subtile tech */
+                            neonBorder: '#06b6d433', /* Lueur néon */
+                            green: '#10b981'      /* Vert validation de sécurité */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #080c14;
+            color: #94a3b8;
+            overflow-x: hidden;
+        }
+
+        /* Effet de lueur d'arrière-plan */
+        .glow-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Scroller stylisé */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080c14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+
+        /* Classes d'affichage dynamique pour l'application monopage (SPA) */
+        .tab-section {
+            display: none;
+        }
+        .tab-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Effets de lueur néon subtils */
+        .glow-card {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.12);
+            border-color: #06b6d488 !important;
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col justify-between relative">
+
+    <!-- SPHERES DE LUMIERE D'AMBIANCE (AESTHETIC DECO) -->
+    <div class="glow-sphere bg-cyan-500/10 w-96 h-96 top-20 left-[-10%]"></div>
+    <div class="glow-sphere bg-blue-600/10 w-[500px] h-[500px] bottom-20 right-[-10%]"></div>
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-50 bg-cyber-dark/80 backdrop-blur-md border-b border-cyber-border">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <div class="logo font-display font-bold text-xl flex items-center gap-2.5 text-white tracking-wide">
+                <div class="p-2 bg-gradient-to-br from-cyber-cyan to-cyber-blue rounded-lg shadow-lg shadow-cyan-500/10">
+                    <i class="fa-solid fa-shield-halved text-cyber-dark text-base"></i>
+                </div>
+                <span>AYSE OZEL<span class="text-cyber-cyan font-mono font-normal text-sm ml-1">// SISR</span></span>
+            </div>
+            
+            <!-- Menu Bureau (Design Dark Tech Épuré) -->
+            <ul class="hidden md:flex space-x-1">
+                <li><button class="tab-btn active px-4 py-2 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 text-cyber-cyan bg-cyber-cyan/10 border border-cyber-cyan/20" onclick="switchTab(event, 'accueil')">Accueil</button></li>
+                <li><button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 text-slate-400 hover:text-white hover:bg-cyber-card" onclick="switchTab(event, 'parcours')">Mon Parcours</button></li>
+                <li><button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 text-slate-400 hover:text-white hover:bg-cyber-card" onclick="switchTab(event, 'situations')">Situations Pro (E4)</button></li>
+                <li><button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 text-slate-400 hover:text-white hover:bg-cyber-card" onclick="switchTab(event, 'competences')">Grille SIO</button></li>
+                <li><button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 text-slate-400 hover:text-white hover:bg-cyber-card" onclick="switchTab(event, 'contact')">Contact</button></li>
+            </ul>
+
+            <!-- Bouton Burger Mobile -->
+            <button class="md:hidden p-2 text-slate-300 focus:outline-none" id="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </nav>
+
+        <!-- Menu Mobile Déroulant -->
+        <div class="hidden bg-cyber-card/95 backdrop-blur-lg border-b border-cyber-border" id="mobile-menu">
+            <ul class="px-4 pt-2 pb-4 space-y-1">
+                <li><button class="tab-btn-m w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-cyber-cyan bg-cyber-cyan/10" onclick="switchTabMobile('accueil')">Accueil</button></li>
+                <li><button class="tab-btn-m w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-400" onclick="switchTabMobile('parcours')">Mon Parcours</button></li>
+                <li><button class="tab-btn-m w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-400" onclick="switchTabMobile('situations')">Situations Pro (E4)</button></li>
+                <li><button class="tab-btn-m w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-400" onclick="switchTabMobile('competences')">Grille SIO</button></li>
+                <li><button class="tab-btn-m w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-400" onclick="switchTabMobile('contact')">Contact</button></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- ZONE DE CONTENU PRINCIPALE (MAIN) -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 relative z-10">
+
+        <!-- ================= ONGLET 1 : ACCUEIL ================= -->
+        <section id="accueil" class="tab-section active">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-4">
+                
+                <!-- Bloc de présentation pro -->
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30 tracking-wider font-mono">
+                        <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-pulse"></span>
+                        OPÉRATEUR RÉSEAU & SÉCURITÉ EN ACTIVITÉ
+                    </span>
+                    <h1 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Ayse Ozel <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan to-cyber-blue font-semibold">Étudiante en Administration Systèmes & Réseaux</span>
+                    </h1>
+                    <p class="text-base text-slate-400 leading-relaxed max-w-xl">
+                        Âgée de 19 ans, je prépare actuellement mon <strong class="text-white">BTS SIO option SISR</strong> au <strong class="text-white">Lycée Jacques Brel à Vénissieux</strong>. 
+                    </p>
+                    <p class="text-base text-slate-400 leading-relaxed max-w-xl font-light">
+                        Issue d'un parcours technique rigoureux via un <strong class="text-white">Bac Pro SN (Systèmes Numériques)</strong>, j'ai acquis des compétences fondamentales en configuration d'équipements Cisco, gestion de VLANs et administration d'annuaires Microsoft. Mon stage au pôle Cybersécurité de la <strong class="text-white">CARSAT Rhône-Alpes</strong> m'a permis de concrétiser ces compétences au sein d'une infrastructure d'importance d'État.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="document.querySelector('[onclick*=\'situations\']').click()" class="bg-gradient-to-r from-cyber-cyan to-cyber-blue text-cyber-dark font-bold px-6 py-3 rounded-lg hover:brightness-110 transition shadow-lg shadow-cyan-500/10 flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-cube"></i> Découvrir mes Réalisations
+                        </button>
+                        <button onclick="document.querySelector('[onclick*=\'contact\']').click()" class="border border-cyber-border bg-cyber-card/40 text-white font-semibold px-6 py-3 rounded-lg hover:bg-cyber-card transition flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-paper-plane"></i> Me Contacter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Panneau de monitoring d'infrastructure (Aesthetic SISR Dashboard) -->
+                <div class="lg:col-span-5">
+                    <div class="bg-cyber-card border border-cyber-border rounded-2xl shadow-xl p-6 relative overflow-hidden glow-card">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-cyber-cyan/5 rounded-full filter blur-xl"></div>
+                        <h3 class="text-xs font-mono text-cyber-cyan uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyber-cyan"></span>
+                            Statut de l'environnement personnel
+                        </h3>
+                        
+                        <!-- Grille d'état réseau -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border/80">
+                                <span class="text-[10px] text-slate-500 font-mono block">ANNUAIRE CENTRAL</span>
+                                <span class="text-sm font-semibold text-white mt-1 block">Active Directory</span>
+                            </div>
+                            <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border/80">
+                                <span class="text-[10px] text-slate-500 font-mono block">SEGMENTATION</span>
+                                <span class="text-sm font-semibold text-white mt-1 block">VLANs & Cisco AD</span>
+                            </div>
+                            <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border/80">
+                                <span class="text-[10px] text-slate-500 font-mono block">TICKETING</span>
+                                <span class="text-sm font-semibold text-white mt-1 block">DoIt Helpdesk</span>
+                            </div>
+                            <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border/80">
+                                <span class="text-[10px] text-slate-500 font-mono block">HABILITATIONS</span>
+                                <span class="text-sm font-semibold text-white mt-1 block">Système GDS</span>
+                            </div>
+                        </div>
+
+                        <!-- Métriques d'administration -->
+                        <div class="pt-6 border-t border-cyber-border mt-5 space-y-3 font-mono text-xs">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">Stage Cyber :</span>
+                                <span class="text-cyber-green font-semibold">CARSAT Lyon 3e</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">Cibles de formation :</span>
+                                <span class="text-white">Sensibilisation / Phishing</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">Localisation actuelle :</span>
+                                <span class="text-white">Vénissieux / Lyon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= ONGLET 2 : PARCOURS SCOLAIRE ================= -->
+        <section id="parcours" class="tab-section">
+            <div class="border-b border-cyber-border pb-4 mb-8">
+                <h1 class="font-display text-2xl font-bold text-white tracking-tight">Mon Parcours Académique & Professionnel</h1>
+                <p class="text-sm text-slate-400 font-mono">Évolution technique d'une passionnée d'infrastructure.</p>
+            </div>
+
+            <div class="relative max-w-3xl mx-auto py-4">
+                <!-- Ligne de temps verticale -->
+                <div class="absolute left-6 top-0 bottom-0 w-[1px] bg-cyber-border"></div>
+
+                <div class="space-y-10">
+                    
+                    <!-- Étape 1 : BTS SIO SISR -->
+                    <div class="relative flex items-start gap-6 pl-12">
+                        <div class="absolute left-4 w-4 h-4 rounded-full bg-cyber-cyan border-4 border-cyber-dark -translate-x-1/2 mt-1.5 z-10 shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+                        <div class="bg-cyber-card border border-cyber-border p-6 rounded-xl glow-card flex-1">
+                            <span class="inline-block text-[11px] font-mono font-semibold text-cyber-cyan mb-2">Depuis Septembre 2026</span>
+                            <h3 class="font-display text-lg font-bold text-white">BTS SIO (Option SISR)</h3>
+                            <h4 class="text-sm text-slate-400 mb-3">Lycée Jacques Brel — Vénissieux</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                Approfondissement des architectures d'infrastructure, de l'adressage IP (v4, v6), du routage et des concepts avancés de sécurité et de supervision système.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Étape 2 : Stage CARSAT -->
+                    <div class="relative flex items-start gap-6 pl-12">
+                        <div class="absolute left-4 w-4 h-4 rounded-full bg-cyber-blue border-4 border-cyber-dark -translate-x-1/2 mt-1.5 z-10 shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
+                        <div class="bg-cyber-card border border-cyber-border p-6 rounded-xl glow-card flex-1">
+                            <span class="inline-block text-[11px] font-mono font-semibold text-cyber-blue mb-2">Mai - Juin 2026 (Stage de 1ère année)</span>
+                            <h3 class="font-display text-lg font-bold text-white">Stage d'immersion en Cybersécurité</h3>
+                            <h4 class="text-sm text-slate-400 mb-3">CARSAT Rhône-Alpes (Lyon 3e)</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                Intégration de la cellule sécurité de la CARSAT. Administration quotidienne de droits d'accès via **GDS** et **Active Directory**, traitement de tickets de support sur **DoIt**, et élaboration d'un module d'accueil cyber (simulation de phishing et guides ANSSI) pour l'intégration des nouveaux collaborateurs.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Étape 3 : Bac Pro SN -->
+                    <div class="relative flex items-start gap-6 pl-12">
+                        <div class="absolute left-4 w-4 h-4 rounded-full bg-slate-600 border-4 border-cyber-dark -translate-x-1/2 mt-1.5 z-10"></div>
+                        <div class="bg-cyber-card border border-cyber-border p-6 rounded-xl glow-card flex-1">
+                            <span class="inline-block text-[11px] font-mono font-semibold text-slate-500 mb-2">Obtenu en Juin 2025</span>
+                            <h3 class="font-display text-lg font-bold text-white">Baccalauréat Professionnel SN</h3>
+                            <h4 class="text-sm text-slate-400 mb-3">Systèmes Numériques</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                Acquisition des compétences de base en maintenance informatique, conception et administration de réseaux segmentés par VLAN, configuration de commutateurs Cisco, et première configuration de contrôleurs de domaine (Active Directory).
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ONGLET 3 : SITUATIONS PROFESSIONNELLES ================= -->
+        <section id="situations" class="tab-section">
+            <div class="border-b border-cyber-border pb-4 mb-8">
+                <h1 class="font-display text-2xl font-bold text-white tracking-tight">Réalisations & Situations Professionnelles (E4)</h1>
+                <p class="text-sm text-slate-400 font-mono">Fiches d'examen officielles rédigées selon le référentiel BTS.</p>
+            </div>
+
+            <div class="space-y-8">
+                
+                <!-- SITUATION 1 : SENSIBILISATION PHISHING -->
+                <article class="bg-cyber-card border border-cyber-border rounded-2xl shadow-xl overflow-hidden glow-card">
+                    <div class="bg-cyber-dark/40 p-6 border-b border-cyber-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30">CONFORMANCE SÉCURITÉ</span>
+                            <h2 class="font-display text-xl font-bold text-white mt-2">Situation 1 : Sensibilisation Cyber & Campagne Anti-Phishing</h2>
+                        </div>
+                        <span class="px-3 py-1 bg-cyber-green/10 text-cyber-green text-xs font-semibold rounded-full border border-cyber-green/20">Validation E4 OK</span>
+                    </div>
+
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Contexte & Besoin -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-info text-cyber-cyan"></i> Contexte & Besoin
+                                </h3>
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    Afin de prémunir la CARSAT contre les risques liés à l'ingénierie sociale, mon pôle m'a chargée de concevoir un dispositif d'onboarding de cybersécurité destiné aux nouveaux arrivants administratifs. L'objectif était d'évaluer leur niveau de vigilance par un test concret et d'enseigner les bonnes pratiques pour parer aux fraudes.
+                                </p>
+                            </div>
+                            <!-- Outils -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-microchip text-cyber-cyan"></i> Environnement Technologique
+                                </h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Simulateur Phishing</span>
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Règles de sécurité ANSSI</span>
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Supports PDF didactiques</span>
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Windows Server Suite</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Réalisation Chronologique -->
+                        <div class="bg-cyber-dark/50 p-5 rounded-xl border border-cyber-border/80">
+                            <h3 class="text-white font-bold text-sm mb-4 flex items-center gap-2 font-mono">
+                                <i class="fa-solid fa-network-wired text-cyber-cyan"></i> ÉTAPES DE MISE EN OEUVRE CHRONOLOGIQUE
+                            </h3>
+                            <ul class="space-y-4 text-sm text-slate-400 font-light">
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">01.</span>
+                                    <span><strong>Extraction de la liste d'intégration :</strong> Identification et cartographie des comptes des nouveaux arrivants dans l'annuaire d'entreprise.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">02.</span>
+                                    <span><strong>Scénarisation du faux courriel :</strong> Création d'un gabarit d'e-mail de phishing imitant un appel urgent au changement d'identifiants réseau, configuré avec des indices de vigilance (expéditeur non cohérent, cible URL modifiée).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">03.</span>
+                                    <span><strong>Conception du livret cyber :</strong> Rédaction d'un guide pédagogique conforme aux règles ANSSI (mots de passe complexes par phrases de passe, réflexes de verrouillage automatique `Win + L`, principe du bureau propre).</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">04.</span>
+                                    <span><strong>Animation de la session d'accueil :</strong> Présentation interactive du livret de sécurité aux nouveaux collaborateurs et restitution anonyme des statistiques de piégeage pour prise de conscience collective.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Difficultés -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Difficultés & Résolutions
+                                </h3>
+                                <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                    <strong>Difficulté :</strong> Traduire des directives de cybersécurité abstraites en règles comprises par des profils non informaticiens.<br>
+                                    <strong>Solution :</strong> Utilisation d'analogies de la vie réelle (comme le verrouillage d'une maison), et sessions d'ateliers courts basés sur la manipulation d'exemples de courriels réels.
+                                </p>
+                            </div>
+                            <!-- Bilan -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-square-check text-cyber-green"></i> Conclusion & Apport
+                                </h3>
+                                <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                    Ce projet a permis d'optimiser le taux de cyber-vigilance au sein de la CARSAT, en assurant une formation solide dès le premier jour d'intégration des agents de l'administration.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SITUATION 2 : GESTION DES ACCÈS -->
+                <article class="bg-cyber-card border border-cyber-border rounded-2xl shadow-xl overflow-hidden glow-card">
+                    <div class="bg-cyber-dark/40 p-6 border-b border-cyber-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <span class="px-2.5 py-1 text-[11px] font-mono rounded bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30">ADMINISTRATION SYSTEME</span>
+                            <h2 class="font-display text-xl font-bold text-white mt-2">Situation 2 : Traitement des Habilitations & Droits d'Accès (DoIt & GDS)</h2>
+                        </div>
+                        <span class="px-3 py-1 bg-cyber-green/10 text-cyber-green text-xs font-semibold rounded-full border border-cyber-green/20">Validation E4 OK</span>
+                    </div>
+
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Contexte & Besoin -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-info text-cyber-cyan"></i> Contexte & Besoin
+                                </h3>
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    Pour préserver le cloisonnement des données médicales et de retraite des usagers, l'attribution des habilitations logiques aux salariés de la CARSAT doit se faire sous contrôle d'identité rigoureux et de conformité hiérarchique.
+                                </p>
+                            </div>
+                            <!-- Outils -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-microchip text-cyber-cyan"></i> Environnement Technologique
+                                </h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Active Directory (AD)</span>
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Outil GDS (Droits logiques)</span>
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Outil DoIt (Ticketing)</span>
+                                    <span class="px-3 py-1.5 bg-cyber-dark/80 border border-cyber-border rounded text-xs font-mono text-slate-300">Permissions NTFS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Réalisation Chronologique -->
+                        <div class="bg-cyber-dark/50 p-5 rounded-xl border border-cyber-border/80">
+                            <h3 class="text-white font-bold text-sm mb-4 flex items-center gap-2 font-mono">
+                                <i class="fa-solid fa-network-wired text-cyber-cyan"></i> ÉTAPES DE MISE EN OEUVRE CHRONOLOGIQUE
+                            </h3>
+                            <ul class="space-y-4 text-sm text-slate-400 font-light">
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">01.</span>
+                                    <span><strong>Analyse de ticket DoIt :</strong> Prise en charge des requêtes simples d'accès ou d'incidents d'habilitation sur la plateforme de support.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">02.</span>
+                                    <span><strong>Vérification sur GDS :</strong> Analyse de la demande dans le gestionnaire centralisé de droits logiques pour contrôler la présence d'un accord valide signé électroniquement par le responsable de service de l'agent.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">03.</span>
+                                    <span><strong>Administration des groupes dans l'AD :</strong> Accès à l'annuaire Active Directory de la CARSAT pour ajouter ou supprimer le compte ciblé dans les groupes de sécurité NTFS nécessaires.</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="font-mono text-cyber-cyan font-bold">04.</span>
+                                    <span><strong>Clôture du ticket :</strong> Notification à l'utilisateur, vérification de la bonne application du droit d'accès et mise à jour du statut du ticket DoIt en statut résolu.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Difficultés -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Difficultés & Résolutions
+                                </h3>
+                                <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                    <strong>Difficulté :</strong> Demandes reçues de façon incomplète ou absence de signature d'autorisation validée par le manager dans GDS.<br>
+                                    <strong>Solution :</strong> Application stricte de la charte de sécurité : suspension temporaire de l'instruction, notification au manager pour validation électronique formelle avant toute action d'administration dans l'AD.
+                                </p>
+                            </div>
+                            <!-- Bilan -->
+                            <div class="space-y-3">
+                                <h3 class="text-white font-semibold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-square-check text-cyber-green"></i> Conclusion & Apport
+                                </h3>
+                                <p class="text-sm text-slate-400 leading-relaxed font-light">
+                                    Cette activité m'a permis d'acquérir les réflexes de rigueur nécessaires à la manipulation d'un annuaire d'entreprise d'envergure, en veillant constamment à respecter le principe de sécurité du moindre privilège.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ================= ONGLET 4 : GRILLE DE COMPETENCES ================= -->
+        <section id="competences" class="tab-section">
+            <div class="border-b border-cyber-border pb-4 mb-8">
+                <h1 class="font-display text-2xl font-bold text-white tracking-tight">Grille de Compétences SIO</h1>
+                <p class="text-sm text-slate-400 font-mono">Suivi de la validation des acquis pour l'épreuve E4.</p>
+            </div>
+
+            <!-- Téléchargement Excel -->
+            <div class="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-cyber-card border border-cyber-border p-6 rounded-2xl glow-card">
+                <div class="space-y-1">
+                    <span class="text-sm font-bold text-white block">Grille Officielle Excel</span>
+                    <span class="text-xs text-slate-500 font-mono block">Dépôt requis dans le répertoire : <strong>grille_competences.xlsx</strong></span>
+                </div>
+                <a href="grille_competences.xlsx" class="inline-flex items-center gap-2.5 bg-gradient-to-r from-cyber-cyan to-cyber-blue text-cyber-dark font-bold px-5 py-3 rounded-lg hover:brightness-110 transition text-sm shadow-lg shadow-cyan-500/10" download>
+                    <i class="fa-solid fa-file-excel text-base"></i> Télécharger ma Grille Excel Officielle
+                </a>
+            </div>
+
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl shadow-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-cyber-dark/60 border-b border-cyber-border text-xs uppercase font-mono text-slate-400 tracking-wider">
+                                <th class="p-4">BLOC DE COMPÉTENCE SIO</th>
+                                <th class="p-4">RÉALISATION / APPLICATION PRATIQUE</th>
+                                <th class="p-4">PROJET ASSOCIÉ</th>
+                                <th class="p-4">STATUT EXAMEN</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-cyber-border text-slate-400 font-light">
+                            <tr class="hover:bg-cyber-dark/30 transition">
+                                <td class="p-4 font-semibold text-white">Gérer le patrimoine informatique</td>
+                                <td class="p-4">Suivi, traitement et résolution d'incidents utilisateurs légers d'accès matériel.</td>
+                                <td class="p-4 font-mono text-xs text-cyber-cyan">Stage CARSAT — DoIt Ticket</td>
+                                <td class="p-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/20">Acquis</span></td>
+                            </tr>
+                            <tr class="hover:bg-cyber-dark/30 transition">
+                                <td class="p-4 font-semibold text-white">Protéger les données de l'organisation</td>
+                                <td class="p-4">Modification des comptes AD et de l'appartenance aux groupes de droits NTFS.</td>
+                                <td class="p-4 font-mono text-xs text-cyber-cyan">Stage CARSAT — AD / GDS</td>
+                                <td class="p-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/20">Acquis</span></td>
+                            </tr>
+                            <tr class="hover:bg-cyber-dark/30 transition">
+                                <td class="p-4 font-semibold text-white">Accompagner les utilisateurs</td>
+                                <td class="p-4">Conception de campagnes d'hameçonnage préventives et animation d'onboarding cyber.</td>
+                                <td class="p-4 font-mono text-xs text-cyber-cyan">Stage CARSAT — Sensibilisation</td>
+                                <td class="p-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/20">Acquis</span></td>
+                            </tr>
+                            <tr class="hover:bg-cyber-dark/30 transition">
+                                <td class="p-4 font-semibold text-white">Segmenter un réseau local</td>
+                                <td class="p-4">Définition de plans d'adressage IP, création de VLANs et configuration d'équipements Cisco.</td>
+                                <td class="p-4 font-mono text-xs text-cyber-cyan">Bac Pro SN / Maquettes SISR</td>
+                                <td class="p-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/20">Acquis</span></td>
+                            </tr>
+                            <tr class="hover:bg-cyber-dark/30 transition">
+                                <td class="p-4 font-semibold text-white">Administrer un domaine AD</td>
+                                <td class="p-4">Création et structuration d'Unités d'Organisation (OU), d'utilisateurs et de stratégies GPO.</td>
+                                <td class="p-4 font-mono text-xs text-cyber-cyan">Ateliers SISR / Bac SN</td>
+                                <td class="p-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/20">Acquis</span></td>
+                            </tr>
+                            <tr class="hover:bg-cyber-dark/30 transition">
+                                <td class="p-4 font-semibold text-white">Automatiser les tâches d'administration</td>
+                                <td class="p-4">Élaboration de scripts basiques de vérification d'état et d'automatisation des comptes.</td>
+                                <td class="p-4 font-mono text-xs text-cyber-cyan">PowerShell / Linux Bash</td>
+                                <td class="p-4"><span class="px-2 py-0.5 text-xs font-semibold rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">En cours</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ONGLET 5 : CONTACT ================= -->
+        <section id="contact" class="tab-section">
+            <div class="border-b border-cyber-border pb-4 mb-8">
+                <h1 class="font-display text-2xl font-bold text-white tracking-tight">Me Contacter</h1>
+                <p class="text-sm text-slate-400 font-mono">Disponible pour toute opportunité d'alternance ou collaboration technique.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Coordonnées et réseaux -->
+                <div class="lg:col-span-5 bg-cyber-card border border-cyber-border p-6 rounded-2xl glow-card space-y-6">
+                    <div>
+                        <h2 class="font-display text-lg font-bold text-white">Ayse Ozel</h2>
+                        <span class="text-xs text-cyber-cyan font-mono font-semibold uppercase tracking-wider block mt-1">Élève Administratrice Réseau & Cyber</span>
+                        <p class="text-sm text-slate-400 leading-relaxed mt-3 font-light">
+                            Actuellement en cours d'études en BTS SIO (SISR), je suis motivée à l'idée d'intégrer une équipe d'ingénierie réseaux & sécurité pour ma seconde année ou pour de futurs projets.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <a href="mailto:ayse.ozel@gmail.com" class="flex items-center gap-4 bg-cyber-dark/60 border border-cyber-border p-4 rounded-xl hover:border-cyber-cyan/50 transition duration-150">
+                            <i class="fa-solid fa-envelope text-cyber-cyan text-lg"></i>
+                            <div>
+                                <h4 class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Adresse E-mail</h4>
+                                <span class="text-sm font-semibold text-white">ayse.ozel@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <a href="https://linkedin.com" target="_blank" class="flex items-center gap-4 bg-cyber-dark/60 border border-cyber-border p-4 rounded-xl hover:border-cyber-cyan/50 transition duration-150">
+                            <i class="fa-brands fa-linkedin-in text-cyber-cyan text-lg"></i>
+                            <div>
+                                <h4 class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">LinkedIn</h4>
+                                <span class="text-sm font-semibold text-white">linkedin.com/in/ayse-ozel-cyber</span>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com" target="_blank" class="flex items-center gap-4 bg-cyber-dark/60 border border-cyber-border p-4 rounded-xl hover:border-cyber-cyan/50 transition duration-150">
+                            <i class="fa-brands fa-github text-cyber-cyan text-lg"></i>
+                            <div>
+                                <h4 class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">GitHub</h4>
+                                <span class="text-sm font-semibold text-white">github.com/ayse-ozel</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Formulaire de contact -->
+                <div class="lg:col-span-7 bg-cyber-card border border-cyber-border p-6 rounded-2xl glow-card">
+                    <h3 class="text-white font-semibold text-base mb-4 font-mono">FORMULAIRE DE COMMUNICATION SÉCURISÉ</h3>
+                    <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Nom / Prénom</label>
+                                <input type="text" id="form-name" required placeholder="Ex: Jean Dupont" class="w-full bg-cyber-dark/80 border border-cyber-border rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">E-mail professionnel</label>
+                                <input type="email" id="form-email" required placeholder="Ex: j.dupont@entreprise.com" class="w-full bg-cyber-dark/80 border border-cyber-border rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan transition">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Objet de la demande</label>
+                            <input type="text" id="form-subject" required placeholder="Ex: Offre d'alternance / Contact" class="w-full bg-cyber-dark/80 border border-cyber-border rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Message</label>
+                            <textarea id="form-message" required rows="4" placeholder="Saisissez les détails de votre message..." class="w-full bg-cyber-dark/80 border border-cyber-border rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan transition"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyber-cyan to-cyber-blue text-cyber-dark font-bold py-2.5 rounded-lg hover:brightness-110 transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-cyan-500/10">
+                            <i class="fa-solid fa-paper-plane"></i> Envoyer le message
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FENETRE MODALE DE CONFIRMATION SANS ALERT() -->
+    <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-cyber-dark/80 backdrop-blur-sm hidden">
+        <div class="bg-cyber-card border border-cyber-border p-8 rounded-2xl max-w-md w-full mx-4 shadow-2xl text-center space-y-4">
+            <div class="w-12 h-12 bg-cyber-green/10 text-cyber-green rounded-full flex items-center justify-center text-xl mx-auto border border-cyber-green/20">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white">Transmission réussie</h3>
+            <p class="text-xs text-slate-400 leading-relaxed font-light">
+                Votre message a correctement été encapsulé et transmis. Je prendrai connaissance de votre demande dans les plus brefs délais.
+            </p>
+            <button onclick="closeModal()" class="w-full bg-gradient-to-r from-cyber-cyan to-cyber-blue text-cyber-dark font-bold py-2 rounded-lg hover:brightness-110 transition text-sm">
+                Fermer la session
+            </button>
+        </div>
+    </div>
+
+    <!-- PIED DE PAGE (Footer) -->
+    <footer class="border-t border-cyber-border bg-cyber-card/30 py-6 text-center text-xs text-slate-500 relative z-10">
+        <p>&copy; 2026 — Portfolio d'Ayse Ozel — Lycée Jacques Brel (Vénissieux)</p>
+        <p class="text-slate-600 mt-1 font-mono text-[10px]">BTS SIO Option SISR — Conforme au référentiel d'examen de l'Éducation Nationale.</p>
+    </footer>
+
+    <!-- LOGIQUE JAVASCRIPT TECHNIQUE -->
+    <script>
+        // Gestion des onglets principaux (Desktop)
+        function switchTab(event, tabId) {
+            // Masquer toutes les sections
+            const sections = document.querySelectorAll('.tab-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            // Réinitialiser les boutons de navigation Desktop
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'text-cyber-cyan', 'bg-cyber-cyan/10', 'border', 'border-cyber-cyan/20');
+                btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-cyber-card');
+            });
+
+            // Activer la section cible
+            document.getElementById(tabId).classList.add('active');
+
+            // Mettre en valeur le bouton actif
+            event.currentTarget.classList.add('active', 'text-cyber-cyan', 'bg-cyber-cyan/10', 'border', 'border-cyber-cyan/20');
+            event.currentTarget.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-cyber-card');
+
+            // Fermer le menu mobile s'il était ouvert
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Gestion de la navigation Mobile (Routage tactile)
+        function switchTabMobile(tabId) {
+            const sections = document.querySelectorAll('.tab-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+
+            // Mise à jour de la mise en surbrillance mobile
+            const btnMob = document.querySelectorAll('.tab-btn-m');
+            btnMob.forEach(btn => {
+                btn.classList.remove('text-cyber-cyan', 'bg-cyber-cyan/10');
+                btn.classList.add('text-slate-400');
+            });
+
+            // Appliquer le style au bouton cliqué
+            event.currentTarget.classList.add('text-cyber-cyan', 'bg-cyber-cyan/10');
+            event.currentTarget.classList.remove('text-slate-400');
+
+            // Masquer le panneau mobile
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle pour afficher/masquer le menu mobile
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Gestion du formulaire de contact (Pas d'utilisation d'alert)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Réinitialisation des champs du formulaire
+            document.getElementById('form-name').value = '';
+            document.getElementById('form-email').value = '';
+            document.getElementById('form-subject').value = '';
+            document.getElementById('form-message').value = '';
+
+            // Affichage de la modale de validation
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        // Fermer la modale
+        function closeModal() {
+            document.getElementById('success-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
